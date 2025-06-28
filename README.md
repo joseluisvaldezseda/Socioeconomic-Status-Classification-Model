@@ -38,7 +38,7 @@ seaborn
 
 ### Training and Prediction
 Run the main script:
-```bash
+
 python "Building Classification Model.py"
 
 This script:
