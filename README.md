@@ -29,7 +29,7 @@ Python 3.7+
 pip install -r requirements.txt
 Required packages:
 
-text
+
 pandas>=1.3.0
 numpy>=1.21.0
 scikit-learn>=1.0.0
@@ -51,7 +51,7 @@ Modify these paths in the script:
 python
 input_path = "data/your_data.csv"
 output_path = "predictions/your_results.xlsx"
-Model Configuration
+## Model Configuration
 Ensemble Weights:
 
 Random Forest: 3
@@ -64,7 +64,7 @@ AdaBoost: 1
 
 Extra Trees: 1
 
-Key Variables:
+## Key Variables:
 
 data_folder: Path to training data
 
