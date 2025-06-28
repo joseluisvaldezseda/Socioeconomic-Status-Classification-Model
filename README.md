@@ -12,16 +12,27 @@ This project implements a **Socioeconomic Level (NSE) classification system** us
 ## Project Structure  
 Niveles-Socio-Economicos/
 │
+
 ├── Building_Classification_Model.py # Main training/prediction script
+
 ├── Visualizations.py # Analysis charts generator
+
 ├── modelo_nse.pkl # Serialized trained model
+
 │
+
 ├── data/ # Training datasets
+
 │ ├── survey_data.csv
+
 │ └── economic_indicators.csv
+
 │
+
 └── predictions/ # Output folder
+
 ├── NSE_Colima_Results.xlsx
+
 └── Jalisco_Predictions.csv
 
 ## Requirements  
