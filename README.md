@@ -24,8 +24,6 @@ Niveles-Socio-Economicos/
 ├── NSE_Colima_Results.xlsx
 └── Jalisco_Predictions.csv
 
-text
-
 ## Requirements  
 Python 3.7+
 pip install -r requirements.txt
@@ -74,7 +72,7 @@ nse_combinations: Category mapping dictionary
 
 columns_to_standardize: Features to normalize
 
-Outputs
+## Outputs
 Generated Files:
 
 Excel/CSV prediction files
@@ -83,14 +81,14 @@ Model performance metrics
 
 Visualization charts
 
-Notes
+## Notes
 Input files must contain all required columns
 
 Automatically handles missing values
 
 Excludes invalid classes: IND, ND, C/S, NS
 
-Future Improvements
+## Future Improvements
 Graphical interface
 
 Web API endpoint
