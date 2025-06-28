@@ -1,142 +1,126 @@
-# Socioeconomic Level Classification System (NSE)
+Socioeconomic Level Classification System (NSE)
+Project Description
+This project implements a Socioeconomic Level (NSE) classification system using an ensemble of machine learning models. The system can:
 
-## Project Description
-This project implements a Socioeconomic Level (NSE) classification system using an ensemble model that combines multiple machine learning algorithms. The system can:
+✔ Train classification models with historical data
+✔ Predict NSE categories for new datasets
+✔ Generate insightful visualizations
+✔ Evaluate model performance
 
-- Train a classification model with historical data
-- Predict NSE for new datasets
-- Generate visualizations to analyze model performance
-
-## Project Structure
-
-Niveles-Socio-Economicos/
+🗂 Project Structure
+text
+NSE-Classifier/
 │
-├── Building Classification Model.py # Main script for training and using the model
-├── Visualizations.py # Script for generating analysis charts
-├── modelo_nse.pkl # Trained model (generated during execution)
-├── data/ # Folder with training data
-│ ├── file1.csv
-│ ├── file2.csv
-│ └── ...
-└── predictions/ # Folder for storing results
-├── NSE_Colima_NorthAlpha_Predictions.xlsx
-└── JaliscoNSE_Predictions.xlsx
+├── 📜 Building_Classification_Model.py    # Main training/prediction script
+├── 📊 Visualizations.py                  # Performance analysis charts
+├── 🤖 modelo_nse.pkl                     # Serialized trained model
+│
+├── 📂 data/                              # Training datasets
+│   ├── survey_data_2023.csv
+│   └── economic_indicators.xlsx
+│
+└── 📂 predictions/                       # Prediction outputs
+    ├── NSE_Colima_Predictions.xlsx
+    └── Jalisco_NSE_Results.csv
+⚙️ Requirements
+bash
+Python 3.7+
+pip install -r requirements.txt
+Required Packages:
 
-## Requirements
-- Python 3.7+
-- Required libraries (install with `pip install -r requirements.txt`):
+text
+pandas==1.3.5
+numpy==1.21.6
+scikit-learn==1.0.2
+catboost==1.0.6
+xgboost==1.6.1
+matplotlib==3.5.3
+seaborn==0.11.2
+joblib==1.2.0
+🚀 Usage
+1. Training and Prediction
+bash
+python Building_Classification_Model.py
+What this does:
 
-pandas
-numpy
-scikit-learn
-catboost
-xgboost
-matplotlib
-seaborn
-
-## Usage
-
-### Training and Prediction
-Run the main script:
-
-python "Building Classification Model.py"
-
-This script:
-
-Trains the model with data from the specified folder
+Trains the ensemble model using data from /data
 
 Saves the trained model as modelo_nse.pkl
 
-Generates predictions for the Colima dataset
+Generates predictions for default test data
 
-Generating Visualizations
-Run the visualization script:
+2. Generating Visualizations
+bash
 python Visualizations.py
+Outputs:
 
+📈 Feature importance plots
 
-This script generates:
+🧮 Confusion matrices
 
-Feature importance charts
+📉 Calibration curves
 
-Confusion matrix
+🔍 Error analysis by class
 
-Calibration curves
+🔗 Feature correlation heatmaps
 
-Error analysis by class
+3. Custom Predictions
+Modify in Building_Classification_Model.py:
 
-Feature correlation analysis
+python
+input_path = "data/your_data.csv"   # ← Change this
+output_path = "predictions/results.xlsx"  # ← And this
+⚙️ Configuration
+Variable	Description	Example
+data_folder	Training data location	"data/"
+nse_combinations	NSE category mapping	{"AB": ["A","B"]}
+columns_to_standardize	Features to normalize	["income","education"]
+🤖 Ensemble Model
+Model	Weight
+Random Forest	3
+XGBoost	2
+CatBoost	2
+AdaBoost	1
+Extra Trees	1
+📊 Results
+Output Files:
 
-Making Predictions on New Data
-To predict NSE for new files (e.g., Jalisco), modify the main script to:
+Excel/CSV files with predictions
 
-Change the input file path
+Console performance metrics:
 
-Change the output file path
-
-Configuration
-Key variables:
-
-data_folder: Path to folder containing CSV training files
-
-nse_combinations: Dictionary defining NSE groups
-
-columns_to_standardize: List of features used in the model
-
-Ensemble Model
-The model combines:
-
-Random Forest (weight: 3)
-
-XGBoost (weight: 2)
-
-CatBoost (weight: 2)
-
-AdaBoost (weight: 1)
-
-Extra Trees (weight: 1)
-
-Results
-The model generates:
-
-Excel file with predictions
-
-Performance metrics in console:
-
-Confusion matrix
+Accuracy scores
 
 Classification report
 
-Overall accuracy
+Confusion matrix
 
-Available visualizations:
+Available Visualizations:
 
-Feature importance by model
+Diagram
+Code
+📝 Notes
+⚠️ Important Requirements:
 
-Detailed confusion matrix
+Input files must include all required_columns
 
-Calibration curve
+Automatically handles missing/infinite values
 
-Probability distribution
+Excludes invalid classes: IND, ND, C/S, NS
 
-Classification report (heatmap)
+🔮 Future Improvements
+🖥️ Graphical user interface
 
-Error analysis by class
+🌐 Prediction API endpoint
 
-Correlation between important features
+🎨 Interactive dashboards
 
-Notes
-Input data must contain all columns specified in required_columns
+🔧 Hyperparameter optimization
 
-Null and infinite values are automatically filtered
+🧩 Extended model persistence with joblib
 
-Invalid classes (IND, ND, C/S, NS) are excluded from analysis
+💡 Tip: For best results, ensure your data follows the same format as the training samples.
 
-Future Improvements
-Implement graphical interface
-
-Create online prediction API
-
-Add more interactive visualizations
-
-Optimize hyperparameters with GridSearch
-joblib
+diff
++ Ready for production use!
+- Under active development
