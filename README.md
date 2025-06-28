@@ -1,126 +1,100 @@
-Socioeconomic Level Classification System (NSE)
-Project Description
-This project implements a Socioeconomic Level (NSE) classification system using an ensemble of machine learning models. The system can:
 
-✔ Train classification models with historical data
-✔ Predict NSE categories for new datasets
-✔ Generate insightful visualizations
-✔ Evaluate model performance
+# Socioeconomic Level Classification System (NSE)
 
-🗂 Project Structure
+## Project Description  
+This project implements a **Socioeconomic Level (NSE) classification system** using machine learning. Key capabilities:
+
+- Train classification models with historical data
+- Predict NSE categories for new datasets
+- Generate performance visualizations
+- Export prediction results
+
+## Project Structure  
+Niveles-Socio-Economicos/
+│
+├── Building_Classification_Model.py # Main training/prediction script
+├── Visualizations.py # Analysis charts generator
+├── modelo_nse.pkl # Serialized trained model
+│
+├── data/ # Training datasets
+│ ├── survey_data.csv
+│ └── economic_indicators.csv
+│
+└── predictions/ # Output folder
+├── NSE_Colima_Results.xlsx
+└── Jalisco_Predictions.csv
+
 text
-NSE-Classifier/
-│
-├── 📜 Building_Classification_Model.py    # Main training/prediction script
-├── 📊 Visualizations.py                  # Performance analysis charts
-├── 🤖 modelo_nse.pkl                     # Serialized trained model
-│
-├── 📂 data/                              # Training datasets
-│   ├── survey_data_2023.csv
-│   └── economic_indicators.xlsx
-│
-└── 📂 predictions/                       # Prediction outputs
-    ├── NSE_Colima_Predictions.xlsx
-    └── Jalisco_NSE_Results.csv
-⚙️ Requirements
-bash
+
+## Requirements  
 Python 3.7+
 pip install -r requirements.txt
-Required Packages:
+Required packages:
 
 text
-pandas==1.3.5
-numpy==1.21.6
-scikit-learn==1.0.2
-catboost==1.0.6
-xgboost==1.6.1
-matplotlib==3.5.3
-seaborn==0.11.2
-joblib==1.2.0
-🚀 Usage
-1. Training and Prediction
+pandas>=1.3.0
+numpy>=1.21.0
+scikit-learn>=1.0.0
+catboost>=1.0.0
+xgboost>=1.6.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+joblib>=1.2.0
+Usage
+Training and Prediction
 bash
 python Building_Classification_Model.py
-What this does:
-
-Trains the ensemble model using data from /data
-
-Saves the trained model as modelo_nse.pkl
-
-Generates predictions for default test data
-
-2. Generating Visualizations
+Generating Visualizations
 bash
 python Visualizations.py
-Outputs:
-
-📈 Feature importance plots
-
-🧮 Confusion matrices
-
-📉 Calibration curves
-
-🔍 Error analysis by class
-
-🔗 Feature correlation heatmaps
-
-3. Custom Predictions
-Modify in Building_Classification_Model.py:
+Custom Predictions
+Modify these paths in the script:
 
 python
-input_path = "data/your_data.csv"   # ← Change this
-output_path = "predictions/results.xlsx"  # ← And this
-⚙️ Configuration
-Variable	Description	Example
-data_folder	Training data location	"data/"
-nse_combinations	NSE category mapping	{"AB": ["A","B"]}
-columns_to_standardize	Features to normalize	["income","education"]
-🤖 Ensemble Model
-Model	Weight
-Random Forest	3
-XGBoost	2
-CatBoost	2
-AdaBoost	1
-Extra Trees	1
-📊 Results
-Output Files:
+input_path = "data/your_data.csv"
+output_path = "predictions/your_results.xlsx"
+Model Configuration
+Ensemble Weights:
 
-Excel/CSV files with predictions
+Random Forest: 3
 
-Console performance metrics:
+XGBoost: 2
 
-Accuracy scores
+CatBoost: 2
 
-Classification report
+AdaBoost: 1
 
-Confusion matrix
+Extra Trees: 1
 
-Available Visualizations:
+Key Variables:
 
-Diagram
-Code
-📝 Notes
-⚠️ Important Requirements:
+data_folder: Path to training data
 
-Input files must include all required_columns
+nse_combinations: Category mapping dictionary
 
-Automatically handles missing/infinite values
+columns_to_standardize: Features to normalize
+
+Outputs
+Generated Files:
+
+Excel/CSV prediction files
+
+Model performance metrics
+
+Visualization charts
+
+Notes
+Input files must contain all required columns
+
+Automatically handles missing values
 
 Excludes invalid classes: IND, ND, C/S, NS
 
-🔮 Future Improvements
-🖥️ Graphical user interface
+Future Improvements
+Graphical interface
 
-🌐 Prediction API endpoint
+Web API endpoint
 
-🎨 Interactive dashboards
+Interactive dashboards
 
-🔧 Hyperparameter optimization
-
-🧩 Extended model persistence with joblib
-
-💡 Tip: For best results, ensure your data follows the same format as the training samples.
-
-diff
-+ Ready for production use!
-- Under active development
+Advanced hyperparameter tuning
