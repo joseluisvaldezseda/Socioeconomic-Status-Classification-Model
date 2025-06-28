@@ -54,15 +54,15 @@ output_path = "predictions/your_results.xlsx"
 ## Model Configuration
 Ensemble Weights:
 
-Random Forest: 3
+-Random Forest: 3
 
-XGBoost: 2
+-XGBoost: 2
 
-CatBoost: 2
+-CatBoost: 2
 
-AdaBoost: 1
+-AdaBoost: 1
 
-Extra Trees: 1
+-Extra Trees: 1
 
 ## Key Variables:
 
@@ -70,10 +70,9 @@ data_folder: Path to training data
 
 nse_combinations: Category mapping dictionary
 
-columns_to_standardize: Features to normalize
+columns_to_standardize: Features to normalize Outputs
 
-## Outputs
-Generated Files:
+## Generated Files:
 
 Excel/CSV prediction files
 
