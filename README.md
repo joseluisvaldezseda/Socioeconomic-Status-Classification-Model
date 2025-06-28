@@ -42,12 +42,19 @@ Required packages:
 
 
 -pandas>=1.3.0
+
 -numpy>=1.21.0
+
 -scikit-learn>=1.0.0
+
 -catboost>=1.0.0
+
 -xgboost>=1.6.0
+
 -matplotlib>=3.5.0
+
 -seaborn>=0.11.0
+
 -joblib>=1.2.0
 
 ## Usage
