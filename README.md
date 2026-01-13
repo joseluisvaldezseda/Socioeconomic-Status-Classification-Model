@@ -1,6 +1,6 @@
 # Socioeconomic Status (SES) Classifier for Mexico
 
-Machine Learning ensemble model that classifies geographic areas according to their socioeconomic level using census data from INEGI (https://www.inegi.org.mx/programas/ccpv/2020/#datos_abiertos).
+Machine Learning ensemble model that classifies geographic areas according to their socioeconomic level using census data from INEGI 2020 (https://www.inegi.org.mx/programas/ccpv/2020/#datos_abiertos).
 
 ## 🌐 Live Demo
 
@@ -276,3 +276,4 @@ This project uses public data from INEGI (National Institute of Statistics and G
 **Last updated**: January 2026  
 **Model version**: 1.0  
 **Production accuracy**: 83.87%
+
