@@ -1,128 +1,123 @@
 import pandas as pd
 import numpy as np
 import joblib
-from sklearn.preprocessing import StandardScaler
 
-# Función para limpiar y convertir columnas a numérico, eliminando asteriscos
+# 1. Función para limpiar y convertir a numérico sin perder filas
 def limpiar_y_convertir(columna):
-    columna_str = columna.astype(str)
-    columna_limpia = columna_str.str.replace('*', '', regex=False)
-    return pd.to_numeric(columna_limpia, errors='coerce')
+    columna_limpia = columna.astype(str).str.replace('*', '0', regex=False).str.strip()
+    return pd.to_numeric(columna_limpia, errors='coerce').fillna(0)
 
-# Cargar el modelo entrenado
+# 2. Cargar el modelo entrenado
 ruta_modelo = r"C:\Users\jose.valdez\Desktop\python\jose luis\Niveles Socio Economicos\modelo_nse.pkl"
 voting_model = joblib.load(ruta_modelo)
 
-# Ruta del archivo de entrada (CSV con datos a predecir)
-ruta_archivo_csv = r"C:\Users\jose.valdez\Desktop\python\jose luis\Niveles Socio Economicos\José Luis\JaliscoNSE.csv"
+# 3. Leer el archivo de predicción
+ruta_archivo_parquet = 'Mexico_AGEB_2020.parquet'
+df_original = pd.read_parquet(ruta_archivo_parquet, engine='pyarrow')
 
-# Leer el archivo de predicción
-df_prediccion = pd.read_csv(ruta_archivo_csv)
-
-# Limpiar nombres de columnas y ajustar (convertir a minúsculas y eliminar espacios/nuevas líneas)
+# Hacemos una copia para trabajar
+df_prediccion = df_original.copy()
 df_prediccion.columns = df_prediccion.columns.str.strip().str.lower().str.replace('\n', ' ')
 
-# Asegurarse de que las columnas coincidan exactamente con las usadas en el entrenamiento
-columnas_requeridas = [
-    'tvivparhab', 'pea', 'pobtot', 'vph_excsa', 'vph_autom', 'vph_inter', 
-    'pocupada', 'pder_ss', 'p18ym_pb', 'vph_3ymasc', 'vph_stvp', 'vph_pc', 
-    'vph_cvj', 'vph_2ymasd', 'vph_moto', 'vph_bici', 'vph_lavad', 'vph_hmicro', 
-    'vph_refri', 'vph_telef', 'vph_spmvpi', 'graproes', 'vph_tv', 'vph_radio',
-    'pder_imss', 'vph_1cuart', 'p15sec_co', 'p_60ymas'
-]
-
-# Verificar que todas las columnas requeridas estén presentes
-columnas_faltantes = [col for col in columnas_requeridas if col not in df_prediccion.columns]
-if columnas_faltantes:
-    raise ValueError(f"Columnas faltantes en el archivo de predicción: {columnas_faltantes}")
-
-# Procesamiento de datos igual que en el entrenamiento
-total_viviendas = limpiar_y_convertir(df_prediccion['tvivparhab'])
-poblacion_activa = limpiar_y_convertir(df_prediccion['pea'])
-poblacion_total = limpiar_y_convertir(df_prediccion['pobtot'])
-
-# Cálculo de las variables (igual que en el entrenamiento)
-df_prediccion['vph_excsa'] = limpiar_y_convertir(df_prediccion['vph_excsa']) * 100 / total_viviendas
-df_prediccion['vph_autom'] = limpiar_y_convertir(df_prediccion['vph_autom']) * 100 / total_viviendas
-df_prediccion['vph_inter'] = limpiar_y_convertir(df_prediccion['vph_inter']) * 100 / total_viviendas
-df_prediccion['pocupada'] = limpiar_y_convertir(df_prediccion['pocupada']) * 100 / poblacion_activa
-df_prediccion['pder_ss'] = limpiar_y_convertir(df_prediccion['pder_ss']) * 100 / poblacion_total
-df_prediccion['p18ym_pb'] = limpiar_y_convertir(df_prediccion['p18ym_pb']) * 100 / poblacion_activa
-df_prediccion['vph_3ymasc'] = limpiar_y_convertir(df_prediccion['vph_3ymasc']) * 100 / total_viviendas
-df_prediccion['vph_stvp'] = limpiar_y_convertir(df_prediccion['vph_stvp']) * 100 / total_viviendas
-df_prediccion['vph_pc'] = limpiar_y_convertir(df_prediccion['vph_pc']) * 100 / total_viviendas
-df_prediccion['vph_cvj'] = limpiar_y_convertir(df_prediccion['vph_cvj']) * 100 / total_viviendas
-df_prediccion['vph_2ymasd'] = limpiar_y_convertir(df_prediccion['vph_2ymasd']) * 100 / total_viviendas
-df_prediccion['vph_moto'] = limpiar_y_convertir(df_prediccion['vph_moto']) * 100 / total_viviendas
-df_prediccion['vph_bici'] = limpiar_y_convertir(df_prediccion['vph_bici']) * 100 / total_viviendas
-df_prediccion['vph_lavad'] = limpiar_y_convertir(df_prediccion['vph_lavad']) * 100 / total_viviendas
-df_prediccion['vph_hmicro'] = limpiar_y_convertir(df_prediccion['vph_hmicro']) * 100 / total_viviendas
-df_prediccion['vph_refri'] = limpiar_y_convertir(df_prediccion['vph_refri']) * 100 / total_viviendas
-df_prediccion['vph_telef'] = limpiar_y_convertir(df_prediccion['vph_telef']) * 100 / total_viviendas
-df_prediccion['vph_spmvpi'] = limpiar_y_convertir(df_prediccion['vph_spmvpi']) * 100 / total_viviendas
-df_prediccion['graproes'] = limpiar_y_convertir(df_prediccion['graproes'])
-df_prediccion['vph_tv'] = limpiar_y_convertir(df_prediccion['vph_tv']) * 100 / total_viviendas
-df_prediccion['vph_radio'] = limpiar_y_convertir(df_prediccion['vph_radio']) * 100 / total_viviendas
-df_prediccion['pder_imss'] = limpiar_y_convertir(df_prediccion['pder_imss']) * 100 / poblacion_activa
-df_prediccion['vph_1cuart'] = limpiar_y_convertir(df_prediccion['vph_1cuart']) * 100 / total_viviendas
-df_prediccion['p15sec_co'] = limpiar_y_convertir(df_prediccion['p15sec_co']) * 100 / total_viviendas
-df_prediccion['p_60ymas'] = limpiar_y_convertir(df_prediccion['p_60ymas']) * 100 / poblacion_total
-
-# Seleccionar exactamente las mismas columnas usadas en el entrenamiento
+# 4. Definir columnas necesarias
 columnas_para_estandarizar = [
     'vph_excsa', 'vph_autom', 'vph_inter', 'pocupada', 'pder_ss', 
     'p18ym_pb', 'vph_3ymasc', 'vph_stvp', 'vph_pc', 'vph_cvj', 
     'vph_2ymasd', 'vph_moto', 'vph_bici', 'vph_lavad', 'vph_hmicro', 
     'vph_refri', 'vph_telef', 'vph_spmvpi', 'graproes', 'vph_tv',
     'vph_radio', 'pder_imss', 'vph_1cuart', 'p15sec_co', 'p_0a2', 'p_3a5',
-    'p_6a11', 'p_12a14', 'p_15a17', 'p_18a24', 'pob15_64', 'p_60ymas'
+    'p_6a11', 'p_12a14', 'p_15a17', 'p_18a24', 'pob15_64', 
+    'p_60ymas'
 ]
 
-# Filtrar filas con valores nulos
-df_prediccion = df_prediccion.dropna(subset=columnas_para_estandarizar)
-df_prediccion = df_prediccion[~df_prediccion[columnas_para_estandarizar].isin([np.inf, -np.inf]).any(axis=1)]
+# 5. Procesamiento de denominadores
+total_viviendas = limpiar_y_convertir(df_prediccion['tvivparhab']).replace(0, 1)
+poblacion_activa = limpiar_y_convertir(df_prediccion['pea']).replace(0, 1)
+poblacion_total = limpiar_y_convertir(df_prediccion['pobtot']).replace(0, 1)
 
-# Preparar datos para predicción
-X_prediccion = df_prediccion[columnas_para_estandarizar].values
+# 6. Cálculo de variables (Igual que en el entrenamiento)
+calculos = {
+    'vph_': total_viviendas,
+    'pder_ss': poblacion_total,
+    'pder_imss': poblacion_activa,
+    'pocupada': poblacion_activa,
+    'p18ym_pb': poblacion_activa,
+    'p15sec_co': total_viviendas,
+    'p_60ymas': poblacion_total
+}
 
-# Realizar las predicciones
+for col in columnas_para_estandarizar:
+    valor_numerico = limpiar_y_convertir(df_prediccion[col])
+    
+    if col.startswith('vph_') and col not in ['graproes']:
+        df_prediccion[col] = (valor_numerico * 100) / total_viviendas
+    elif col in calculos:
+        df_prediccion[col] = (valor_numerico * 100) / calculos[col]
+    else:
+        df_prediccion[col] = valor_numerico
+
+# 7. Limpieza de infinitos
+df_prediccion[columnas_para_estandarizar] = df_prediccion[columnas_para_estandarizar].replace([np.inf, -np.inf], np.nan).fillna(0)
+
+# 8. Preparar datos para predicción
+X_prediccion = df_prediccion[columnas_para_estandarizar].values.astype(np.float32)
+
+# 9. Realizar las predicciones
+print("Realizando predicciones...")
 y_prediccion = voting_model.predict(X_prediccion)
 
-# Agregar las predicciones al DataFrame
-df_prediccion['nse_predicho'] = y_prediccion
+# --- NUEVA SECCIÓN: AGREGAR COLUMNAS DE DECISIÓN ---
+# Agregamos las columnas procesadas al dataframe original con el prefijo 'calc_'
+for col in columnas_para_estandarizar:
+    nombre_col_calculada = f"calc_{col}"
+    df_original[nombre_col_calculada] = df_prediccion[col].values
 
-# Si existe columna 'nse' en los datos de predicción, calcular precisión
-if 'nse' in df_prediccion.columns:
-    df_prediccion['nse'] = df_prediccion['nse'].astype(str).str.upper()
-    df_prediccion = df_prediccion[~df_prediccion['nse'].isin(['IND', 'ND', 'C/S', 'NS'])]
-    
-    # Función para asignar clase socioeconómica (la misma que usaste en el entrenamiento)
-    def asignar_clase(nse):
-        combinaciones_nse = {
-            'AB': ['AB'],
-            'C+': ['C+'],
-            'C': ['C'],
-            'C-': ['C-'],
-            'D+': ['D+'],
-            'D': ['D'],
-            'E': ['E']
-        }
-        for clase, niveles in combinaciones_nse.items():
-            if nse in niveles:
-                return clase
-        return None
-    
-    # Aplicar la misma función de asignación de clase
-    df_prediccion['clase_real'] = df_prediccion['nse'].apply(asignar_clase)
-    
-    # Calcular precisión solo si hay valores reales para comparar
-    if 'clase_real' in df_prediccion.columns:
-        predicciones_correctas = (df_prediccion['nse_predicho'] == df_prediccion['clase_real']).sum()
-        total_predicciones = len(df_prediccion)
-        porcentaje_correcto = (predicciones_correctas / total_predicciones) * 100
-        print(f"\nPorcentaje de predicciones correctas: {porcentaje_correcto:.2f}%")
+# 10. Agregar la predicción final
+df_original['nse_predicho'] = y_prediccion
 
-# Guardar las predicciones
-ruta_salida = r"C:\Users\jose.valdez\Desktop\python\jose luis\Niveles Socio Economicos\JaliscoNSE_Predicciones.xlsx"
-df_prediccion.to_excel(ruta_salida, index=False)
-print(f"Predicciones guardadas en {ruta_salida}")
+# 11. Opcional: Calcular precisión
+if 'nse' in df_original.columns:
+    df_eval = df_original.copy()
+    df_eval['nse'] = df_eval['nse'].astype(str).str.upper().str.strip()
+    validos = ~df_eval['nse'].isin(['IND', 'ND', 'C/S', 'NS', 'NAN', '0', ''])
+    df_eval = df_eval[validos]
+    
+    if len(df_eval) > 0:
+        def asignar_clase(nse):
+            niveles = ['AB', 'C+', 'C', 'C-', 'D+', 'D', 'E']
+            return nse if nse in niveles else None
+        df_eval['clase_real'] = df_eval['nse'].apply(asignar_clase)
+        correctas = (df_eval['nse_predicho'] == df_eval['clase_real']).sum()
+        print(f"Precisión: {(correctas/len(df_eval))*100:.2f}% ({correctas}/{len(df_eval)})")
+
+# 12. Guardar el archivo final
+ruta_salida = 'MexicoNSE_Predicciones.parquet'
+df_original.to_parquet(ruta_salida, index=False, engine='pyarrow')
+print(f"Proceso finalizado. Archivo guardado con columnas de decisión en: {ruta_salida}")
+
+# --- BLOQUE DE RESUMEN FINAL ---
+print("\n" + "="*50)
+print("RESUMEN ESTADÍSTICO DEL ARCHIVO FINAL")
+print("="*50)
+
+# 1. Lista de todas las columnas
+print(f"\nLista de columnas ({len(df_original.columns)} en total):")
+print(df_original.columns.tolist())
+
+# 2. Shape final (Filas y Columnas)
+filas, columnas = df_original.shape
+print(f"\nDimensiones finales:")
+print(f"Total de Registros (Filas): {filas:,}")
+print(f"Total de Variables (Columnas): {columnas:,}")
+
+# 3. Conteo de Predicciones por Clase
+print("\nConteo de registros por NSE Predicho:")
+conteo_nse = df_original['nse_predicho'].value_counts()
+print(conteo_nse)
+
+# 4. Porcentaje de la mezcla de NSE en el archivo
+print("\nDistribución porcentual del NSE:")
+porcentajes = (df_original['nse_predicho'].value_counts(normalize=True) * 100).round(2)
+print(porcentajes.astype(str) + '%')
+
+print("="*50)
