@@ -1,6 +1,6 @@
 # Clasificador de Nivel Socioeconómico (NSE) para México
 
-Modelo de Machine Learning basado en ensemble que clasifica áreas geográficas según su nivel socioeconómico utilizando datos censales del INEGI.
+Modelo de Machine Learning basado en ensemble que clasifica áreas geográficas según su nivel socioeconómico utilizando datos censales del INEGI (https://www.inegi.org.mx/programas/ccpv/2020/#datos_abiertos).
 
 ## 📊 Descripción del Proyecto
 
@@ -266,3 +266,4 @@ Este proyecto utiliza datos públicos del INEGI (Instituto Nacional de Estadíst
 **Última actualización**: Enero 2026  
 **Versión del modelo**: 1.0  
 **Precisión en producción**: 83.87%
+
